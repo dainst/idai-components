@@ -49,7 +49,10 @@ angular.module('idai.components')
                 $scope.q = searchTerm;
 
                 if (!searchTerm) searchTerm = "";
-                $location.url('/search?q=' + searchTerm);
+                
+                // consider subfolder based search
+                var path = ($location.path().match(/search$/).length) ? $location.path() : '/search';
+				$location.url(path + '?q=' + searchTerm);
 
                 idaiSearchService.notify(searchTerm);
             };

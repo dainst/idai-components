@@ -12,7 +12,8 @@ angular.module('idai.components')
     restrict: 'E',
     templateUrl: 'forms/idai-search.html',
     bindings: {
-        buttonClass: '@'
+        buttonClass: '@',
+		getSearchPathFn: '='
     },
     controller: [ '$scope', '$location', 'componentsSettings', '$http','idaiSearchService',
         function($scope,$location,componentsSettings,$http,idaiSearchService) {
@@ -26,11 +27,16 @@ angular.module('idai.components')
                 $scope.buttonClass = this.buttonClass;
             }
 
+			$scope.getSearchPathFn = angular.isFunction(this.getSearchPathFn) ?
+				this.getSearchPathFn :
+				function(q) {return '/search?q=' + q;};
+
+
             idaiSearchService.register(function(term) {
                 $scope.placeholder = term;
             }.bind(this));
 
-            $scope.$on('$locationChangeStart', function (event,next) {
+            $scope.$on('$locationChangeStart', function (event,next) { // ????
                 if (next.indexOf('search')==-1) idaiSearchService.notify(undefined)
                 $scope.q = $location.search().q
             });
@@ -49,10 +55,8 @@ angular.module('idai.components')
                 $scope.q = searchTerm;
 
                 if (!searchTerm) searchTerm = "";
-                
-                // consider subfolder based search
-                var path = ($location.path().match(/search$/).length) ? $location.path() : '/search';
-				$location.url(path + '?q=' + searchTerm);
+
+				$location.url($scope.getSearchPathFn(searchTerm));
 
                 idaiSearchService.notify(searchTerm);
             };

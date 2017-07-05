@@ -14,5 +14,7 @@ angular.module('sampleApp.controllers')
             messages.add(transl8Key, level, showContactInfo);
         }
 
+        $scope.searchPathFunction = function(q){return 'some-search-path?q=' + q}
+
 	}
 ]);

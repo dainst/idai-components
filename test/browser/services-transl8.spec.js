@@ -7,7 +7,7 @@ describe('transl8', function (){
 	var KEY = "navbar_about";
 	var KEY_INVALID = "navbar_xyz";
 	var TRANSL8_JSONP_URL = "//crazyhorse.archaeologie.uni-koeln.de/transl8/" +
-		"translation/jsonp?application=arachne4_frontend&lang={LANG}&callback=JSON_CALLBACK";
+		"translation/jsonp?application=arachne4_frontend&lang={LANG}";
 	var TRANSLATION_EN = 'About Arachne';
 	var TRANSLATION_DE = 'Über Arachne';
 

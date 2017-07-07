@@ -44,7 +44,7 @@ describe('transl8', function (){
 		$httpBackend.whenJSONP(transl8UrlEn).respond(mockDataEn);
 	}
 
-	xit('should provide german menu items for german users', function () {
+	it('should provide german menu items for german users', function () {
 
 		myBeforeEach('de');
 
@@ -52,7 +52,7 @@ describe('transl8', function (){
 		expect(transl8.getTranslation(KEY)).toBe(TRANSLATION_DE);
 	});
 
-	xit('should provide english menu items for english users', function () {
+	it('should provide english menu items for english users', function () {
 
 		myBeforeEach('en');
 
@@ -60,7 +60,7 @@ describe('transl8', function (){
 		expect(transl8.getTranslation(KEY)).toBe(TRANSLATION_EN);
 	});
 
-	xit('should provide english menu items for danish users', function () {
+	it('should provide english menu items for danish users', function () {
 
 		myBeforeEach('da');
 
@@ -68,7 +68,7 @@ describe('transl8', function (){
 		expect(transl8.getTranslation(KEY)).toBe(TRANSLATION_EN);
 	});
 
-	xit('lacks a german translation (german user)', function () {
+	it('lacks a german translation (german user)', function () {
 
 		myBeforeEach('de');
 
@@ -76,7 +76,7 @@ describe('transl8', function (){
 		expect(function(){transl8.getTranslation(KEY_INVALID)}).toThrow();
 	});
 
-	xit('lacks an english translation (english user)', function () {
+	it('lacks an english translation (english user)', function () {
 
 		myBeforeEach('en');
 
@@ -84,7 +84,7 @@ describe('transl8', function (){
 		expect(function(){transl8.getTranslation(KEY_INVALID)}).toThrow();
 	});
 
-	xit('lacks an english translation (danish user)', function () {
+	it('lacks an english translation (danish user)', function () {
 
 		myBeforeEach('da');
 

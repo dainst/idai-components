@@ -19,7 +19,7 @@ angular.module('idai.components')
 
             transl8Url = componentsSettings.transl8Uri.replace('{LANG}', lang);
 
-            promise = $http.jsonp($sce.trustAsResourceUrl(transl8Url), { jsonpCallbackParam: 'callback' })
+            promise = $http.jsonp(transl8Url)
                 .then(function (result) {
 
                 res = result.data;
@@ -30,7 +30,6 @@ angular.module('idai.components')
                 }
                 translationsLoaded = true;
             }).catch(function (error) {
-                console.log(error);
                 alert("ERROR: Could not get translations. Try to reload the page or send a mail to arachne@uni-koeln.de");
             });
 

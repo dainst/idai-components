@@ -19,8 +19,7 @@ angular.module('idai.components')
 
             transl8Url = componentsSettings.transl8Uri.replace('{LANG}', lang);
 
-            promise = $http.jsonp(transl8Url)
-                .then(function (result) {
+            promise = $http.jsonp($sce.trustAsResourceUrl(transl8Url)).then(function (result) {
 
                 res = result.data;
                 i = res.length;

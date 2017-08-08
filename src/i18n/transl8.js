@@ -8,23 +8,27 @@
  * @author: Jan G. Wieners
  */
 angular.module('idai.components')
-    .factory('transl8', ['$http', '$location', 'language', 'componentsSettings',
-        function ($http, $location, language, componentsSettings) {
+    .factory('transl8', ['$http', '$location', '$sce', 'language', 'componentsSettings',
+        function ($http, $location, $sce, language, componentsSettings) {
 
             var lang = language.currentLanguage(),
                 translationsLoaded = false,
-                translations = {}; // Map: [transl8_key,translation].
-                
+                transl8Url, res, promise, i, translations = {}; // Map: [transl8_key,translation]
+
             if (['de', 'en'].indexOf(lang) === -1) lang = 'en';
 
-            var transl8Url = componentsSettings.transl8Uri.replace('{LANG}', lang);
+            transl8Url = componentsSettings.transl8Uri.replace('{LANG}', lang);
 
-            var promise = $http.jsonp(transl8Url).success(function (data) {
-                for (var i = 0; i < data.length; i++) {
-                    translations[data[i].key] = data[i].value;
+            promise = $http.jsonp($sce.trustAsResourceUrl(transl8Url)).then(function (result) {
+
+                res = result.data;
+                i = res.length;
+
+                for (i; i--;) {
+                    translations[res[i].key] = res[i].value;
                 }
                 translationsLoaded = true;
-            }).error(function () {
+            }).catch(function (error) {
                 alert("ERROR: Could not get translations. Try to reload the page or send a mail to arachne@uni-koeln.de");
             });
 

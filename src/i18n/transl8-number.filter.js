@@ -12,10 +12,14 @@ angular.module('idai.components')
 
             if (typeof nu == 'undefined') return undefined;
 
+			if (typeof nu === 'string' && isNaN(nu)) return nu;
+
+			var num = (typeof nu === 'string' && !isNaN(nu)) ? +nu : nu;
+
             if (language.currentLanguage()==COMPONENTS_GERMAN_LANG) {
-                return nu.toLocaleString(COMPONENTS_GERMAN_LANG+"-DE");
+                return num.toLocaleString(COMPONENTS_GERMAN_LANG+"-DE");
             } else {
-                return nu.toLocaleString(COMPONENTS_ENGLISH_LANG+"-US");
+                return num.toLocaleString(COMPONENTS_ENGLISH_LANG+"-US");
             }
         };
         filterFunction.$stateful=true;

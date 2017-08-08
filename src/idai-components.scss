@@ -26,3 +26,33 @@
   top: 100% !important;
   z-index: 1000 !important;
 }
+
+.scope-button-main {
+  padding-right:0
+}
+.scope-button-main:hover {
+  border-right:1px solid rgba(0,0,0,0)
+}
+
+.scope-button-leave {
+  border-left: none;
+  margin-left: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.scope-button-leave .glyphicon {
+  font-size: small;
+  color: silver
+}
+
+.scope-button-pseudo {
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+  cursor: default
+}
+
+.scope-button-pseudo:hover {
+  background:white
+}

@@ -7,13 +7,15 @@ angular.module('idai.components')
  * @author Patrick Jominet
  * @author Jan Wieners
  * @author Daniel de Oliveira
+ * @author philipp Franck
+ *
  */
 .component('idaiSearch', {
     restrict: 'E',
     templateUrl: 'forms/idai-search.html',
     bindings: {
         buttonClass: '@',
-		getSearchPathFn: '='
+        searchScope: '='
     },
     controller: [ '$scope', '$location', 'componentsSettings', '$http','idaiSearchService',
         function($scope,$location,componentsSettings,$http,idaiSearchService) {
@@ -27,9 +29,76 @@ angular.module('idai.components')
                 $scope.buttonClass = this.buttonClass;
             }
 
-			$scope.getSearchPathFn = angular.isFunction(this.getSearchPathFn) ?
-				this.getSearchPathFn :
-				function(q) {return '/search?q=' + q;};
+			/**
+			 * [scoped search]
+			 *
+			 * about: I tried to make it flexible, that the component can be used in a system with different architecture as well..
+			 *
+			 * the value serachScope takes one object,
+			 * with 4 optional parameters
+			 *
+			 * searchScope.title - the title of the scope
+			 * searchScope.search - a function taking the serach query q and returning the query url
+			 * searchScope.leaveScope - a function get called when leave scope is clicked
+			 * searchScope.page - url of the info page of the scope
+			 *
+			 *
+			 */
+
+
+			$scope.getSearchScopeShortTitle = function() {
+				if (typeof $scope.searchScope === "undefined") {
+					return false;
+				}
+				if (!$scope.searchScope.title  || ($scope.searchScope.title === '')) {
+					return false;
+                }
+                if ($scope.searchScope.title.length > 10) {
+                    return $scope.searchScope.title.substr(0, 7) + '...';
+                }
+                return $scope.searchScope.title;
+
+            }
+
+			function getScopeSearchUrl(q) {
+				if ($scope.hasSearchScope() && angular.isFunction($scope.searchScope.search)) {
+					return $scope.searchScope.search(q);
+				} else {
+					return '/search?q=' + q;
+				}
+			}
+
+			$scope.searchScope = this.searchScope;
+			$scope.noSearchScope = false;
+			var lastScope = ''; //  we track this to know, when scope is changed and removed scope button shall be shown again
+
+            $scope.hasSearchScope = function()  {
+
+            	var searchScopeGiven = !!$scope.searchScope &&
+					angular.isObject($scope.searchScope) &&
+					(Object.keys($scope.searchScope).length > 0);
+
+            	if (searchScopeGiven) {
+					if (lastScope !== JSON.stringify($scope.searchScope.title))  {
+						lastScope = JSON.stringify($scope.searchScope.title);
+						$scope.noSearchScope = false;
+					}
+				} else {
+					lastTitle = '';
+					$scope.noSearchScope = false;
+				}
+
+            	return searchScopeGiven && !$scope.noSearchScope;
+			}
+
+			$scope.leaveSearchScope = function leaveSearchScope() {
+				//console.log('leave scope',$scope.searchScope.leaveScope)
+				if (angular.isFunction($scope.searchScope.leaveScope)) {
+					$scope.searchScope.leaveScope();
+				}
+				$scope.noSearchScope = true;
+
+			}
 
 
             idaiSearchService.register(function(term) {
@@ -41,7 +110,6 @@ angular.module('idai.components')
                 $scope.q = $location.search().q
             });
 
-            
 
             $scope.search = function ($item) {
                 var searchTerm;
@@ -56,7 +124,10 @@ angular.module('idai.components')
 
                 if (!searchTerm) searchTerm = "";
 
-				$location.url($scope.getSearchPathFn(searchTerm));
+                var url = getScopeSearchUrl(searchTerm);
+                console.log(url, $scope.searchScope);
+
+				$location.url(url);
 
                 idaiSearchService.notify(searchTerm);
             };

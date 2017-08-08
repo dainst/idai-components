@@ -1,6 +1,31 @@
 <form ng-submit="search()" class="idai-search input-group form-inline"
       role="search" method="GET" autocomplete="off">
 
+    <span class="input-group-btn scope-button" ng-if="hasSearchScope()">
+        <a
+            ng-if="searchScope.page"
+            type="submit"
+            class="btn {{buttonClass}} scope-button-main"
+            ng-href="{{searchScope.page}}"
+            title="{{searchScope.title || ('navbar_this_scope'|transl8)}}">
+            {{getSearchScopeShortTitle() || ('navbar_this_scope'|transl8)}}
+        </a>
+
+        <span
+                ng-if="!searchScope.page"
+                title="{{searchScope.title || ('navbar_this_scope'|transl8)}}"
+                class="btn scope-button-pseudo">
+            {{getSearchScopeShortTitle() || ('navbar_this_scope'|transl8)}}
+        </span>
+
+        <span class="btn btn-default scope-button-leave"
+              ng-click="leaveSearchScope()"
+              title="{{searchScope.leaveText || ('navbar_leave_scope'|transl8)}}">
+            <span class="glyphicon glyphicon-remove"></span>
+        </span>
+    </span>
+
+
     <input type="text"
            ng-model="q"
            name="q"
@@ -16,7 +41,7 @@
 
     <span class="input-group-btn">
         <button type="submit" class="btn {{buttonClass}}">
-            &nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;
+            <span class="glyphicon glyphicon-search"></span>
         </button>
     </span>
 

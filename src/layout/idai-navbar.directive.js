@@ -21,13 +21,13 @@ angular.module('idai.components')
 				hideContactButton: '=', // set "true" to hide it
 				hideLanguageSwitcher: '=', // set "true" to hide it
 				projectId: '@',
-				getSearchPathFn: '='
+				searchScope: '='
 			},
 			templateUrl: 'layout/idai-navbar.html',
 			transclude: true,
 			controller: [ '$scope', '$http', 'localizedContent', '$location', '$window',
 				function($scope, $http, localizedContent, $location, $window) {
-$scope.getSearchPathFn2 = "du hund!"
+
 					$scope.langCode = localStorage.getItem('lang');
 
 					$scope.getNavbarLinks = function(contentDir){

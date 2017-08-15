@@ -84,7 +84,7 @@ angular.module('idai.components')
 						$scope.noSearchScope = false;
 					}
 				} else {
-					lastTitle = '';
+                    lastScope = '';
 					$scope.noSearchScope = false;
 				}
 

@@ -3,24 +3,24 @@
 
     <span class="input-group-btn scope-button" ng-if="hasSearchScope()">
         <a
-            ng-if="searchScope.page"
+            ng-if="getSearchScope().page"
             type="submit"
-            class="btn {{buttonClass}} scope-button-main"
-            ng-href="{{searchScope.page}}"
-            title="{{searchScope.title || ('navbar_this_scope'|transl8)}}">
+            class="btn btn-default scope-button-main"
+            ng-href="{{getSearchScope().page}}"
+            title="{{getSearchScope().title || ('navbar_this_scope'|transl8)}}">
             {{getSearchScopeShortTitle() || ('navbar_this_scope'|transl8)}}
         </a>
 
         <span
-                ng-if="!searchScope.page"
-                title="{{searchScope.title || ('navbar_this_scope'|transl8)}}"
+                ng-if="!getSearchScope().page"
+                title="{{getSearchScope().title || ('navbar_this_scope'|transl8)}}"
                 class="btn scope-button-pseudo">
             {{getSearchScopeShortTitle() || ('navbar_this_scope'|transl8)}}
         </span>
 
         <span class="btn btn-default scope-button-leave"
               ng-click="leaveSearchScope()"
-              title="{{searchScope.leaveText || ('navbar_leave_scope'|transl8)}}">
+              title="{{getSearchScope().leaveText || ('navbar_leave_scope'|transl8)}}">
             <span class="glyphicon glyphicon-remove"></span>
         </span>
     </span>

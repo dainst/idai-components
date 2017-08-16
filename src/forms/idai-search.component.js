@@ -15,7 +15,7 @@ angular.module('idai.components')
     templateUrl: 'forms/idai-search.html',
     bindings: {
         buttonClass: '@',
-        searchScope: '='
+        searchScope: '<'
     },
     controller: [ '$scope', '$location', 'componentsSettings', '$http','idaiSearchService',
         function($scope,$location,componentsSettings,$http,idaiSearchService) {
@@ -45,42 +45,43 @@ angular.module('idai.components')
 			 *
 			 */
 
+            $scope.noSearchScope = false;
+            var lastScope = ''; //  we track this to know, when scope is changed and removed scope button shall be shown again
 
 			$scope.getSearchScopeShortTitle = function() {
-				if (typeof $scope.searchScope === "undefined") {
+				if (typeof this.searchScope === "undefined") {
 					return false;
 				}
-				if (!$scope.searchScope.title  || ($scope.searchScope.title === '')) {
+				if (!this.searchScope.title  || (this.searchScope.title === '')) {
 					return false;
                 }
-                if ($scope.searchScope.title.length > 10) {
-                    return $scope.searchScope.title.substr(0, 7) + '...';
+                if (this.searchScope.title.length > 10) {
+                    return this.searchScope.title.substr(0, 7) + '...';
                 }
-                return $scope.searchScope.title;
+                return this.searchScope.title;
+            }.bind(this);
 
-            }
+			$scope.getSearchScope = function() {
+			    return this.searchScope
+            }.bind(this);
 
-			function getScopeSearchUrl(q) {
-				if ($scope.hasSearchScope() && angular.isFunction($scope.searchScope.search)) {
-					return $scope.searchScope.search(q);
+			var getScopeSearchUrl = function(q) {
+				if ($scope.hasSearchScope() && angular.isFunction(this.searchScope.search)) {
+					return this.searchScope.search(q);
 				} else {
 					return '/search?q=' + q;
 				}
-			}
-
-			$scope.searchScope = this.searchScope;
-			$scope.noSearchScope = false;
-			var lastScope = ''; //  we track this to know, when scope is changed and removed scope button shall be shown again
+			}.bind(this);
 
             $scope.hasSearchScope = function()  {
 
-            	var searchScopeGiven = !!$scope.searchScope &&
-					angular.isObject($scope.searchScope) &&
-					(Object.keys($scope.searchScope).length > 0);
+            	var searchScopeGiven = !!this.searchScope &&
+					angular.isObject(this.searchScope) &&
+					(Object.keys(this.searchScope).length > 0);
 
             	if (searchScopeGiven) {
-					if (lastScope !== JSON.stringify($scope.searchScope.title))  {
-						lastScope = JSON.stringify($scope.searchScope.title);
+					if (lastScope !== JSON.stringify(this.searchScope.title))  {
+						lastScope = JSON.stringify(this.searchScope.title);
 						$scope.noSearchScope = false;
 					}
 				} else {
@@ -89,21 +90,22 @@ angular.module('idai.components')
 				}
 
             	return searchScopeGiven && !$scope.noSearchScope;
-			}
+			}.bind(this);
 
 			$scope.leaveSearchScope = function leaveSearchScope() {
-				//console.log('leave scope',$scope.searchScope.leaveScope)
-				if (angular.isFunction($scope.searchScope.leaveScope)) {
-					$scope.searchScope.leaveScope();
+				//console.log('leave scope',this.searchScope.leaveScope)
+				if (angular.isFunction(this.searchScope.leaveScope)) {
+					this.searchScope.leaveScope();
 				}
 				$scope.noSearchScope = true;
-
-			}
+			}.bind(this);
 
 
             idaiSearchService.register(function(term) {
                 $scope.placeholder = term;
             }.bind(this));
+
+            // -- end scoped serach -- //
 
             $scope.$on('$locationChangeStart', function (event,next) { // ????
                 if (next.indexOf('search')==-1) idaiSearchService.notify(undefined)
@@ -125,9 +127,8 @@ angular.module('idai.components')
                 if (!searchTerm) searchTerm = "";
 
                 var url = getScopeSearchUrl(searchTerm);
-                console.log(url, $scope.searchScope);
 
-				$location.url(url);
+		$location.url(url);
 
                 idaiSearchService.notify(searchTerm);
             };

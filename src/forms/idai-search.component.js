@@ -49,7 +49,7 @@ angular.module('idai.components')
             var lastScope = ''; //  we track this to know, when scope is changed and removed scope button shall be shown again
 
 			$scope.getSearchScopeShortTitle = function() {
-				if (typeof this.searchScope === "undefined") {
+				if (!angular.isObject(this.searchScope)) {
 					return false;
 				}
 				if (!this.searchScope.title  || (this.searchScope.title === '')) {
@@ -66,7 +66,7 @@ angular.module('idai.components')
             }.bind(this);
 
 			var getScopeSearchUrl = function(q) {
-				if (angular.isFunction(this.searchScope.search)) {
+				if (angular.isObject(this.searchScope) && angular.isFunction(this.searchScope.search)) {
 					return this.searchScope.search(q);
 				} else {
 					return '/search?q=' + q;
@@ -93,8 +93,7 @@ angular.module('idai.components')
 			}.bind(this);
 
 			$scope.leaveSearchScope = function leaveSearchScope() {
-				//console.log('leave scope',this.searchScope.leaveScope)
-				if (angular.isFunction(this.searchScope.leaveScope)) {
+				if (angular.isObject(this.searchScope) && angular.isFunction(this.searchScope.leaveScope)) {
 					this.searchScope.leaveScope();
 				}
 				$scope.noSearchScope = true;

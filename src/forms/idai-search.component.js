@@ -66,7 +66,7 @@ angular.module('idai.components')
             }.bind(this);
 
 			var getScopeSearchUrl = function(q) {
-				if ($scope.hasSearchScope() && angular.isFunction(this.searchScope.search)) {
+				if (angular.isFunction(this.searchScope.search)) {
 					return this.searchScope.search(q);
 				} else {
 					return '/search?q=' + q;

@@ -75,9 +75,9 @@ angular.module('idai.components')
 
             $scope.hasSearchScope = function()  {
 
-            	var searchScopeGiven = !!this.searchScope &&
-					angular.isObject(this.searchScope) &&
-					(Object.keys(this.searchScope).length > 0);
+            	var searchScopeGiven = angular.isObject(this.searchScope) &&
+                    (this.searchScope.page || this.searchScope.title);
+            	// serach scope button is visible when there is a title and/or a scope homepage
 
             	if (searchScopeGiven) {
 					if (lastScope !== JSON.stringify(this.searchScope.title))  {

@@ -60,11 +60,13 @@ gulp.task('concat-deps', function() {
 
 // minifies and concatenates js files in build dir
 gulp.task('minify-js', ['concat-js', 'html2js'], function() {
+    var gutil = require('gulp-util');
 	return gulp.src([paths.build + '/' + pkg.name + '-no-tpls.js',
 			paths.build + '/' + pkg.name + '-tpls.js'])
-		.pipe(concat(pkg.name + '.js'))
+	.pipe(concat(pkg.name + '.js'))
     	.pipe(gulp.dest(paths.build))
     	.pipe(uglify())
+        //.on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
 		.pipe(concat(pkg.name + '.min.js'))
     	.pipe(gulp.dest(paths.build));
 });

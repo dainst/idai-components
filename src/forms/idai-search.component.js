@@ -7,13 +7,15 @@ angular.module('idai.components')
  * @author Patrick Jominet
  * @author Jan Wieners
  * @author Daniel de Oliveira
+ * @author philipp Franck
+ *
  */
 .component('idaiSearch', {
     restrict: 'E',
     templateUrl: 'forms/idai-search.html',
     bindings: {
         buttonClass: '@',
-		getSearchPathFn: '='
+        searchScope: '<'
     },
     controller: [ '$scope', '$location', 'componentsSettings', '$http','idaiSearchService',
         function($scope,$location,componentsSettings,$http,idaiSearchService) {
@@ -27,21 +29,88 @@ angular.module('idai.components')
                 $scope.buttonClass = this.buttonClass;
             }
 
-			$scope.getSearchPathFn = angular.isFunction(this.getSearchPathFn) ?
-				this.getSearchPathFn :
-				function(q) {return '/search?q=' + q;};
+			/**
+			 * [scoped search]
+			 *
+			 * about: I tried to make it flexible, that the component can be used in a system with different architecture as well..
+			 *
+			 * the value serachScope takes one object,
+			 * with 4 optional parameters
+			 *
+			 * searchScope.title - the title of the scope
+			 * searchScope.search - a function taking the serach query q and returning the query url
+			 * searchScope.leaveScope - a function get called when leave scope is clicked
+			 * searchScope.page - url of the info page of the scope
+			 *
+			 *
+			 */
+
+            $scope.noSearchScope = false;
+            var lastScope = ''; //  we track this to know, when scope is changed and removed scope button shall be shown again
+
+			$scope.getSearchScopeShortTitle = function() {
+				if (!angular.isObject(this.searchScope)) {
+					return false;
+				}
+				if (!this.searchScope.title  || (this.searchScope.title === '')) {
+					return false;
+                }
+                if (this.searchScope.title.length > 10) {
+                    return this.searchScope.title.substr(0, 7) + '...';
+                }
+                return this.searchScope.title;
+            }.bind(this);
+
+			$scope.getSearchScope = function() {
+			    return this.searchScope
+            }.bind(this);
+
+			var getScopeSearchUrl = function(q) {
+				if (angular.isObject(this.searchScope) && angular.isFunction(this.searchScope.search)) {
+					return this.searchScope.search(q);
+				} else {
+					return '/search?q=' + q;
+				}
+			}.bind(this);
+
+            $scope.hasSearchScope = function()  {
+
+            	var searchScopeGiven = angular.isObject(this.searchScope) &&
+                    (this.searchScope.page || this.searchScope.title);
+            	// serach scope button is visible when there is a title and/or a scope homepage
+
+            	if (searchScopeGiven) {
+					if (lastScope !== JSON.stringify(this.searchScope.title))  {
+						lastScope = JSON.stringify(this.searchScope.title);
+						$scope.noSearchScope = false;
+					}
+				} else {
+                    lastScope = '';
+					$scope.noSearchScope = false;
+				}
+
+            	return searchScopeGiven && !$scope.noSearchScope;
+			}.bind(this);
+
+			$scope.leaveSearchScope = function leaveSearchScope() {
+				if (angular.isObject(this.searchScope) && angular.isFunction(this.searchScope.leaveScope)) {
+					this.searchScope.leaveScope();
+				}
+				$scope.noSearchScope = true;
+			}.bind(this);
 
 
             idaiSearchService.register(function(term) {
                 $scope.placeholder = term;
             }.bind(this));
 
+            // -- end scoped serach -- //
+
             $scope.$on('$locationChangeStart', function (event,next) { // ????
                 if (next.indexOf('search')==-1) idaiSearchService.notify(undefined)
                 $scope.q = $location.search().q
             });
 
-            
 
             $scope.search = function ($item) {
                 var searchTerm;
@@ -56,7 +125,9 @@ angular.module('idai.components')
 
                 if (!searchTerm) searchTerm = "";
 
-				$location.url($scope.getSearchPathFn(searchTerm));
+                var url = getScopeSearchUrl(searchTerm);
+
+		$location.url(url);
 
                 idaiSearchService.notify(searchTerm);
             };

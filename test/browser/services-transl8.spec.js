@@ -4,11 +4,11 @@
 
 describe('transl8', function (){
 
-	var KEY = "navbar_about";
+	var KEY = "ui_username";
 	var KEY_INVALID = "navbar_xyz";
 	var TRANSL8_JSONP_URL = "https://arachne.dainst.org/transl8/translation/jsonp?application=shared&lang={LANG}";
-	var TRANSLATION_EN = 'About Arachne';
-	var TRANSLATION_DE = 'Über Arachne';
+	var TRANSLATION_EN = 'User Name';
+	var TRANSLATION_DE = 'Benutzername';
 
 	var mockDataEn = [ {key: KEY, value: TRANSLATION_EN} ];
 	var mockDataDe = [ {key: KEY, value: TRANSLATION_DE} ];
@@ -16,6 +16,7 @@ describe('transl8', function (){
 	var transl8UrlDe = TRANSL8_JSONP_URL.replace('{LANG}',COMPONENTS_GERMAN_LANG);
 
 	var transl8,$httpBackend;
+
 
 	/**
 	 * Done this way to make it configurable with primaryLanguage.
@@ -40,16 +41,19 @@ describe('transl8', function (){
 			$httpBackend = _$httpBackend_;
 		});
 
-		$httpBackend.whenJSONP(transl8UrlDe).respond(mockDataDe);
-		$httpBackend.whenJSONP(transl8UrlEn).respond(mockDataEn);
+		$httpBackend.whenJSONP(new RegExp(transl8UrlDe.replace('?', '\\?'))).respond(mockDataDe);
+        $httpBackend.whenJSONP(new RegExp(transl8UrlEn.replace('?', '\\?'))).respond(mockDataEn);
+
+
 	}
 
 	it('should provide german menu items for german users', function () {
 
 		myBeforeEach('de');
+        $httpBackend.flush();
 
-		$httpBackend.flush();
 		expect(transl8.getTranslation(KEY)).toBe(TRANSLATION_DE);
+
 	});
 
 	it('should provide english menu items for english users', function () {

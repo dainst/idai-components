@@ -29,6 +29,7 @@ angular.module('idai.components')
                 }
                 translationsLoaded = true;
             }).catch(function (error) {
+                //console.error(error)
                 alert("ERROR: Could not get translations. Try to reload the page or send a mail to arachne@uni-koeln.de");
             });
 

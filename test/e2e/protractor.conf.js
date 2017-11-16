@@ -6,6 +6,7 @@ exports.config = {
     specs: ['**/*.spec.js'],
     ignoreUncaughtExceptions: true,
     directConnect: true,
+    chromeOnly: true,
     exclude: [],
     multiCapabilities: [{
         browserName: 'chrome'

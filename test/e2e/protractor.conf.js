@@ -3,7 +3,6 @@ fs = require('fs');
 exports.config = {
     chromeDriver : '../../node_modules/chromedriver/lib/chromedriver/chromedriver',
     baseUrl: 'http://localhost:8084',
-    seleniumAddress: 'http://localhost:4444/wd/hub',
     specs: ['**/*.spec.js'],
     directConnect: true,
     exclude: [],

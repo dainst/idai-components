@@ -4,6 +4,7 @@ exports.config = {
     chromeDriver : '../../node_modules/chromedriver/lib/chromedriver/chromedriver',
     baseUrl: 'http://localhost:8084',
     specs: ['**/*.spec.js'],
+    ignoreUncaughtExceptions: true,
     directConnect: true,
     exclude: [],
     multiCapabilities: [{

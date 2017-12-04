@@ -52,7 +52,9 @@ angular.module('idai.components')
                                 node.title = node.title[lang];
                             } else {
                                 // Use title from available language as default / fallback title
+                                var language = Object.keys(node.title)[0];
                                 node.title = node.title[Object.keys(node.title)[0]];
+                                node.fallbackLanguage = language;
                             }
                         }
                     };
@@ -68,6 +70,8 @@ angular.module('idai.components')
                         }
 
                         // Use title from available language as fallback title
+                        var language = Object.keys(node.title)[0];
+                        node.fallbackLanguage = language;
                         return node.title[Object.keys(node.title)[0]];
                     };
 

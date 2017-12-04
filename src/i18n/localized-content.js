@@ -62,7 +62,13 @@ angular.module('idai.components')
                         if (!node.title) {
                             return false;
                         }
-                        return node.title[lang];
+
+                        if (node.title[lang]) {
+                            return node.title[lang];
+                        }
+
+                        // Use title from available language as fallback title
+                        return node.title[Object.keys(node.title)[0]];
                     };
 
                     var recurseProjectsToAdjustTitle = function (node) {

@@ -21,6 +21,7 @@ angular.module('sampleApp',[
 ]).constant('componentsSettings', {
 		transl8Uri: 'https://arachne.dainst.org/transl8/translation/jsonp?application=shared&lang={LANG}',
 		searchUri: 'http://bogusman02.dai-cloud.uni-koeln.de/data/suggest?q=',
+        dataProtectionPolicyUri: 'http://www.dainst.org/datenschutz',
 		mailTo: 'idai.objects@dainst.org'
 	}
 );

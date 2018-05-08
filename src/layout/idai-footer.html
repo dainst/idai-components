@@ -19,9 +19,15 @@
                 {{'footer_licensed_under'|transl8}}
                 <a rel="license" href="info/order">Creative Commons</a> |&nbsp;
             </div>
+
             <span ng-repeat="link in dynamicLinkList">
-				<a href="info/{{link.id}}" class="linkitem">{{link.title}}</a>&nbsp;|&nbsp;
-		    </span>
+                <a href="info/{{link.id}}" class="linkitem">{{link.title}}</a>&nbsp;|&nbsp;
+            </span>
+
+            <a href="{{dataProtectionPolicyUri}}">{{'footer_privacy'|transl8}}</a>
+
+            &nbsp;|&nbsp;
+
             {{'footer_bugs_to'|transl8}}
             <a href="mailto:{{mailto}}">{{mailto}}</a>
 

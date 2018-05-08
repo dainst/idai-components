@@ -18,10 +18,11 @@ angular.module('idai.components')
             transclude: true,
             templateUrl: 'layout/idai-footer.html',
             controller: ['$scope', '$http', '$sce', 'localizedContent', '$transclude', 'componentsSettings',
-                function ($scope, $http, $sce, localizedContent, $transclude,componentsSettings) {
+                function ($scope, $http, $sce, localizedContent, $transclude, componentsSettings) {
 
+                    $scope.dataProtectionPolicyUri = componentsSettings.dataProtectionPolicyUri;
                     $scope.mailto = componentsSettings.mailTo;
-                    
+
                     $transclude(function(clone){
                         $scope.hasTranscludedContent = (clone.length > 0);
                     });

@@ -10,7 +10,7 @@
 			using bower run:
         </p>
 
-        <pre>bower install dainst/idai-components</pre>
+        <pre>npm install idai-components</pre>
 
 		<p>
 			Link the sources from your project's index.html.
@@ -18,7 +18,7 @@
 
 		<pre>&lt;link rel="stylesheet" href="dist/css/idai-components.min.css"&gt;</pre>
 
-		<pre>&lt;script src="dist/idai-components(.min).js"&gt;&lt;/script&gt;</pre>
+		<pre>&lt;script src="node_modules/dist/idai-components(.min).js"&gt;&lt;/script&gt;</pre>
 
 		<p>
 			Make sure you link the stylesheet from the head section and link the javascript
@@ -35,6 +35,16 @@ angular.module('sampleApp',[
 	'idai.components',
 	'idai.templates'
 ]);</pre>
+
+		<p>
+			In your main controller include:
+		</p>
+
+		<pre>
+.constant('componentsSettings', {
+	transl8Uri: 'https://arachne.dainst.org/transl8/translation/jsonp?application=shared&lang={LANG}',
+})
+		</pre>
 
 		<p>
 			See the pages linked in the top menu for detailed documentation of the different components.

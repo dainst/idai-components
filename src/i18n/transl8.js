@@ -29,8 +29,7 @@ angular.module('idai.components')
                 }
                 translationsLoaded = true;
             }).catch(function (error) {
-                //console.error(error)
-                alert("ERROR: Could not get translations. Try to reload the page or send a mail to arachne@uni-koeln.de");
+                console.error("ERROR: Could not get translations.");
             });
 
             return {
@@ -42,8 +41,8 @@ angular.module('idai.components')
                  * @throws Error if the key does not exist in transl8 or
                  *   there is no translation for the given key.
                  */
-                getTranslation: function (key) {
-                    if (!translationsLoaded) return '';
+                getTranslation: function(key) {
+                    if (!translationsLoaded) return key;
 
                     var translation = translations[key];
                     if (!translation || 0 === translation.length) {

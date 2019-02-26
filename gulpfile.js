@@ -30,12 +30,12 @@ gulp.task('sass', function() {
 });
 
 // minify css files in build dir
-gulp.task('minify-css', ['sass'], function() {
+gulp.task('minify-css', gulp.series('sass', function() {
 	return gulp.src(paths.build + '/css/*.css')
 		.pipe(minifyCss())
   		.pipe(concat(pkg.name + '.min.css'))
 		.pipe(gulp.dest(paths.build + '/css'));
-});
+}));
 
 // concatenates all js files in src into a single file in build dir
 gulp.task('concat-js', function() {
@@ -58,19 +58,6 @@ gulp.task('concat-deps', function() {
 		.pipe(gulp.dest(paths.build));
 });
 
-// minifies and concatenates js files in build dir
-gulp.task('minify-js', ['concat-js', 'html2js'], function() {
-    var gutil = require('gulp-util');
-	return gulp.src([paths.build + '/' + pkg.name + '-no-tpls.js',
-			paths.build + '/' + pkg.name + '-tpls.js'])
-	.pipe(concat(pkg.name + '.js'))
-    	.pipe(gulp.dest(paths.build))
-    	.pipe(uglify())
-        //.on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
-		.pipe(concat(pkg.name + '.min.js'))
-    	.pipe(gulp.dest(paths.build));
-});
-
 // converts, minifies and concatenates html partials
 // in src to a single js file in build dir
 gulp.task('html2js', function() {
@@ -81,12 +68,25 @@ gulp.task('html2js', function() {
 		.pipe(gulp.dest(paths.build));
 });
 
+// minifies and concatenates js files in build dir
+gulp.task('minify-js', gulp.series('concat-js', 'html2js', function() {
+    var gutil = require('gulp-util');
+	return gulp.src([paths.build + '/' + pkg.name + '-no-tpls.js',
+			paths.build + '/' + pkg.name + '-tpls.js'])
+	.pipe(concat(pkg.name + '.js'))
+    	.pipe(gulp.dest(paths.build))
+    	.pipe(uglify())
+        //.on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
+		.pipe(concat(pkg.name + '.min.js'))
+    	.pipe(gulp.dest(paths.build));
+}));
+
 gulp.task('copy-fonts', function() {
 	return gulp.src(paths.bootstrap + '/fonts/**/*', { base: paths.bootstrap + '/fonts' })
   	.pipe(gulp.dest(paths.build + '/fonts'));
 });
 
-gulp.task('build', [
+gulp.task('build', gulp.series(
 	'sass',
 	'minify-css',
 	'concat-js',
@@ -94,7 +94,7 @@ gulp.task('build', [
 	'html2js',
 	'minify-js',
 	'copy-fonts'
-]);
+));
 
 // clean
 gulp.task('clean', function() {
@@ -102,7 +102,7 @@ gulp.task('clean', function() {
 });
 
 // runs the development server and sets up browser reloading
-gulp.task('server', ['sass', 'concat-js', 'html2js', 'copy-fonts'], function() {
+gulp.task('server', gulp.series('sass', 'concat-js', 'html2js', 'copy-fonts', function() {
 	browserSync({
 		server: {
 			baseDir: '.',
@@ -114,16 +114,16 @@ gulp.task('server', ['sass', 'concat-js', 'html2js', 'copy-fonts'], function() {
 		port: 8084
 	});
 
-	gulp.watch('src/**/*.scss', ['sass']);
-	gulp.watch('src/**/*.js', ['concat-js']);
-	gulp.watch('src/**/*.html', ['html2js']);
+	gulp.watch('src/**/*.scss', gulp.series('sass'));
+	gulp.watch('src/**/*.js', gulp.series('concat-js'));
+	gulp.watch('src/**/*.html', gulp.series('html2js'));
 
 	gulp.watch(['index.html',
 		'demo/**/*.html',
 		'partials/**/*.html',
 		'src/**/*.html',
 		'js/*.js'], reload);
-});
+}));
 
 gulp.task('default', function() {
 	runSequence('clean', 'test', 'build');

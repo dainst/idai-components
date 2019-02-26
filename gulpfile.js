@@ -8,7 +8,7 @@ var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var minifyCss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
-var ngHtml2Js = require("gulp-ng-html2js");
+var templateCache = require('gulp-angular-templatecache');
 var minifyHtml = require("gulp-minify-html");
 var Server = require('karma').Server;
 
@@ -63,8 +63,13 @@ gulp.task('concat-deps', function() {
 gulp.task('html2js', function() {
 	return gulp.src('src/**/*.html')
 		.pipe(minifyHtml())
-		.pipe(ngHtml2Js({ moduleName: 'idai.templates', stripPrefix: 'src/' }))
-		.pipe(concat(pkg.name + '-tpls.js'))
+		.pipe(templateCache(pkg.name + '-tpls.js', {
+			standalone: true,
+			module: 'idai.templates',
+			transformUrl: function(url) {
+				return url.substring(1);
+			}
+		}))
 		.pipe(gulp.dest(paths.build));
 });
 

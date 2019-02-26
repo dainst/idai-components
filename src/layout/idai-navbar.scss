@@ -31,7 +31,6 @@
 
   .idai-welt-menu .dropdown-menu > li > a {
     clear: both !important;
-    color: #333 !important;
     display: block !important;
     font-weight: 400 !important;
     line-height: 1.42857 !important;
@@ -41,6 +40,10 @@
 
   .navbar-nav > li > a {
     padding: 15px 11px 15px 11px;
+  }
+
+  .navbar-nav .open .dropdown-menu > li > a {
+    color: #333;
   }
 
   input {
@@ -134,6 +137,7 @@
       border-top-right-radius: 0;
       margin-top: 0;
     }
+
   }
 
   // Very small screen resolutions

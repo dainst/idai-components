@@ -25,10 +25,10 @@ angular.module('idai.components')
 			},
 			templateUrl: 'layout/idai-navbar.html',
 			transclude: true,
-			controller: [ '$scope', '$http', 'localizedContent', '$location', '$window',
-				function($scope, $http, localizedContent, $location, $window) {
+			controller: [ '$scope', '$http', 'localizedContent', '$location', '$window', 'language',
+				function($scope, $http, localizedContent, $location, $window, language) {
 
-					$scope.langCode = localStorage.getItem('lang');
+					$scope.langCode = language.currentLanguage();
 
 					$scope.getNavbarLinks = function(contentDir){
 

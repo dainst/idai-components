@@ -7,7 +7,7 @@ angular.module('idai.components')
  * @author: Daniel de Oliveira
  */
 .filter('transl8', ['transl8',function(transl8){
-	
+
 	var filterFunction = function(key) {
         if (typeof key == 'undefined') return undefined;
         var trans;
@@ -20,6 +20,5 @@ angular.module('idai.components')
         }
 		return trans;
 	};
-	filterFunction.$stateful=true;
 	return filterFunction;
 }]);

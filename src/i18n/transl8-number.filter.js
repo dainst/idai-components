@@ -6,7 +6,7 @@ angular.module('idai.components')
 /**
  * @author: Daniel de Oliveira
  */
-    .filter('transl8Number', ['language',function(language){
+    .filter('transl8Number', ['language', function(language){
 
         var filterFunction = function(nu) {
 
@@ -16,12 +16,11 @@ angular.module('idai.components')
 
 			var num = (typeof nu === 'string' && !isNaN(nu)) ? +nu : nu;
 
-            if (language.currentLanguage()==COMPONENTS_GERMAN_LANG) {
+            if (language.currentLanguage() == COMPONENTS_GERMAN_LANG) {
                 return num.toLocaleString(COMPONENTS_GERMAN_LANG+"-DE");
             } else {
                 return num.toLocaleString(COMPONENTS_ENGLISH_LANG+"-US");
             }
         };
-        filterFunction.$stateful=true;
         return filterFunction;
     }]);

@@ -52,21 +52,19 @@
                         <a ng-click="toggleNavbar()" ng-href="{{link.path}}{{link.id}}">{{link.title}}</a>
                     </li>
 
-                    <li>
-                        <ul class="nav navbar-nav">
-                            <li id="language-switcher" ng-hide="hideLanguageSwitcher"
-                                uib-dropdown>
-                                <a href="#" uib-dropdown-toggle>
-                                    <img src="img/language-icon.png">
-                                </a>
-                                <ul uib-dropdown-menu>
-                                    <li ng-class="{'selected-language': langCode == 'de'}">
-                                        <a ng-click="switchLanguage('de')">Deutsch</a>
-                                    </li>
-                                    <li ng-class="{'selected-language': langCode == 'en'}">
-                                        <a ng-click="switchLanguage('en')">English</a></li>
-                                </ul>
+                    <li id="language-switcher" ng-hide="hideLanguageSwitcher"
+                        uib-dropdown>
+                        <a href="#" uib-dropdown-toggle>
+                            <span class="glyphicon glyphicon-globe"></span>
+                            <span ng-show="langCode == 'de'">Deutsch</span>
+                            <span ng-show="langCode == 'en'">English</span>
+                        </a>
+                        <ul uib-dropdown-menu>
+                            <li ng-class="{'selected-language': langCode == 'de'}">
+                                <a ng-click="switchLanguage('de')">Deutsch</a>
                             </li>
+                            <li ng-class="{'selected-language': langCode == 'en'}">
+                                <a ng-click="switchLanguage('en')">English</a></li>
                         </ul>
                     </li>
 

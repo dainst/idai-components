@@ -160,9 +160,6 @@
 }
 
 // Language switcher
-#language-switcher img {
-  height: 20px;
-}
 
 .navbar .nav > li#language-switcher > .dropdown-menu:before {
   position: absolute !important;
@@ -172,7 +169,6 @@
 }
 
 .navbar-nav > li#language-switcher > a {
-  padding: 13px 11px 15px 10px !important;
   margin-right: 5px !important;
 }
 

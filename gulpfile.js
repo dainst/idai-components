@@ -6,7 +6,7 @@ var reload = browserSync.reload;;
 var modRewrite = require('connect-modrewrite');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
-var minifyCss = require('gulp-minify-css');
+var cleanCSS = require('gulp-clean-css');
 var uglify = require('gulp-uglify');
 var templateCache = require('gulp-angular-templatecache');
 var minifyHtml = require("gulp-minify-html");
@@ -32,7 +32,7 @@ gulp.task('sass', function() {
 // minify css files in build dir
 gulp.task('minify-css', gulp.series('sass', function() {
 	return gulp.src(paths.build + '/css/*.css')
-		.pipe(minifyCss())
+		.pipe(cleanCSS({ compatibility: 'ie8' }))
   		.pipe(concat(pkg.name + '.min.css'))
 		.pipe(gulp.dest(paths.build + '/css'));
 }));
@@ -87,8 +87,8 @@ gulp.task('minify-js', gulp.series('concat-js', 'html2js', function() {
 }));
 
 gulp.task('copy-fonts', function() {
-	return gulp.src(paths.bootstrap + '/fonts/**/*', { base: paths.bootstrap + '/fonts' })
-  	.pipe(gulp.dest(paths.build + '/fonts'));
+	return gulp.src(['fonts/**', paths.bootstrap + '/fonts/**/*'])
+  		.pipe(gulp.dest(paths.build + '/fonts'));
 });
 
 gulp.task('build', gulp.series(

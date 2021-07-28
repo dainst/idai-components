@@ -2,13 +2,12 @@
 
     <div ng-init="isCollapsed = true">
 
-        <div style="padding-left:0px; position:relative">
+        <div style="float: left;">
             <div class="pull-left idai-welt-menu">
                 <ul class="nav navbar-nav">
                     <li uib-dropdown>
                         <a href="#" uib-dropdown-toggle>
-                            <img src="img/kleinergreif.png" id="brand-img">
-                            <b class="caret"></b>
+                            <img src="img/logo_idai.png" id="brand-img">
                         </a>
                         <ul uib-dropdown-menu>
                             <iframe src="https://idai.world/config/idai-nav.html"
@@ -18,7 +17,8 @@
                 </ul>
             </div>
             <a href="/" id="projectLogo">
-                <img class="pull-left" ng-src="img/logo_{{projectId}}.png" style="height: 36px; margin-top: 8px;">
+                <img class="pull-left" ng-src="img/logo_{{projectId}}.png" style="height: 36px; margin: 8px 10px 0 0;">
+                {{projectId}}
             </a>
         </div>
 

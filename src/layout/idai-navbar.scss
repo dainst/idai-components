@@ -12,10 +12,20 @@
   }
 
   #brand-img {
-
     height: 38px;
     margin-top: -16px;
     margin-bottom: -14px;
+    margin-left: 10px;
+  }
+
+  #projectLogo {
+    font-family: $font-family-serif;
+    display: inline;
+    font-size: 20px;
+    line-height: 50px;
+    white-space: nowrap;
+    color: #fff;
+    margin-right: 15px;
   }
 
   // display arrow on top of dropdown menu for idai.world menu
@@ -99,7 +109,7 @@
     .navbar-left {
       float: none !important;
     }
-
+    
     form {
       margin: 0;
     }
@@ -110,7 +120,6 @@
     }
 
     .navbar-nav {
-      //float: none !important;
       margin: 0;
     }
 

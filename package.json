@@ -24,7 +24,7 @@
     "gulp-clean-css": "^4.3.0",
     "gulp-concat": "^2.6.0",
     "gulp-minify-html": "^1.0.4",
-    "gulp-sass": "~4.0.2",
+    "gulp-sass": "~5.0.0",
     "gulp-uglify": "^3.0.0",
     "jasmine-core": "2.7.0",
     "karma": "^6.3.4",

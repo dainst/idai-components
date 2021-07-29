@@ -16,7 +16,7 @@
   "devDependencies": {
     "angular-mocks": "1.6.7",
     "browser-sync": "^2.26.3",
-    "chromedriver": "^2.46.0",
+    "chromedriver": "^92.0.0",
     "connect-modrewrite": "^0.10.2",
     "del": "^3.0.0",
     "gulp": "^4.0.0",
@@ -34,7 +34,7 @@
     "karma-ng-html2js-preprocessor": "^1.0.0",
     "node-sass": "^6.0.1",
     "phantomjs-prebuilt": "^2.1.16",
-    "protractor": "^5.4.2",
+    "protractor": "^7.0.0",
     "protractor-console-plugin": "0.1.1",
     "puppeteer": "^1.12.2",
     "run-sequence": "^2.2.0"

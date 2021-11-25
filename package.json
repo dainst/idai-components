@@ -1,7 +1,8 @@
 {
   "name": "idai-components",
-  "version": "3.1.6",
+  "version": "3.1.7",
   "description": "reusable angular components for the applications of the iDAI.world",
+  "browser": "dist/idai-components.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/dainst/idai-components.git"

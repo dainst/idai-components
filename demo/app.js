@@ -18,7 +18,9 @@ angular.module('sampleApp',[
 			.when('/info/forms', {templateUrl: 'demo/forms.html'})
 			.when('/info/msgs', {templateUrl: 'demo/messages.html'});
 	}
-]).constant('componentsSettings', {
+])
+.constant('transl8map', transl8)
+.constant('componentsSettings', {
 		transl8Uri: 'https://arachne.dainst.org/transl8/translation/jsonp?application=shared&lang={LANG}',
 		searchUri: 'http://bogusman02.dai-cloud.uni-koeln.de/data/suggest?q=',
         dataProtectionPolicyUri: 'http://www.dainst.org/datenschutz',

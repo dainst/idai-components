@@ -9,15 +9,15 @@
  * @author: Sebastian Cuy
  */
 angular.module('idai.components')
-    .factory('transl8', ['$location', 'language', 'componentsSettings',
-        function ($location, language, componentsSettings) {
+    .factory('transl8', ['$location', 'language', 'componentsSettings', 'transl8map',
+        function ($location, language, componentsSettings, transl8map) {
 
             var lang = language.currentLanguage(),
                 i, translations = {}; // Map: [transl8_key,translation]
 
             if (['de', 'en'].indexOf(lang) === -1) lang = 'en';
 
-            translations = transl8[lang];
+            translations = transl8map[lang];
 
             return {
 

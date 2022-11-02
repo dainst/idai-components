@@ -33,7 +33,7 @@
     "karma-html2js-preprocessor": "~1.1.0",
     "karma-jasmine": "^1.1.0",
     "karma-ng-html2js-preprocessor": "^1.0.0",
-    "node-sass": "^6.0.1",
+    "node-sass": "^7.0.0",
     "phantomjs-prebuilt": "^2.1.16",
     "protractor": "^7.0.0",
     "protractor-console-plugin": "0.1.1",

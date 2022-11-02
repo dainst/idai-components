@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;1,400&display=swap');
-
 @font-face {
   font-family: 'Cargan';
   src: local('Cargan-Light'), url(../fonts/Cargan-Light.woff2) format('woff2'), url(../fonts/Cargan-Light.woff) format('woff');
@@ -15,6 +13,7 @@
 @import "messages/idai-messages";
 @import "forms/forms";
 @import "helpers";
+@import "open-sans";
 
 
 h1, h2, h3, h4, h5, h6 {

@@ -9,61 +9,55 @@ angular.module('idai.components')
  * @author: Jan G. Wieners
  */
 
-	.directive('idaiNavbar', function() {
-		return {
-			restrict: 'E',
-			scope: {
-				userObject: '=',
-				loginFunction: '&',
-				logoutFunction: '&',
-				hideSearchForm: '=',
-				hideRegisterButton: '=', // set "true" to hide it
-				hideContactButton: '=', // set "true" to hide it
-				hideLanguageSwitcher: '=', // set "true" to hide it
-				projectId: '@',
-				searchScope: '='
-			},
-			templateUrl: 'layout/idai-navbar.html',
-			transclude: true,
-			controller: [ '$scope', '$http', 'localizedContent', '$location', '$window', 'language',
-				function($scope, $http, localizedContent, $location, $window, language) {
+    .directive('idaiNavbar', function() {
+        return {
+            restrict: 'E',
+            scope: {
+                userObject: '=',
+                loginFunction: '&',
+                logoutFunction: '&',
+                hideSearchForm: '=',
+                hideRegisterButton: '=', // set "true" to hide it
+                hideContactButton: '=', // set "true" to hide it
+                hideLanguageSwitcher: '=', // set "true" to hide it
+                projectId: '@',
+                searchScope: '=',
+                contentInfo: '=',
+            },
+            templateUrl: 'layout/idai-navbar.html',
+            transclude: true,
+            controller: [ '$scope', 'localizedContent', '$window', 'language',
+                function($scope, localizedContent, $window, language) {
 
-					$scope.langCode = language.currentLanguage();
+                    $scope.langCode = language.currentLanguage();
 
-					$scope.getNavbarLinks = function(contentDir){
+                    $scope.getNavbarLinks = function(){
 
-                        var contentInfo = 'info/content.json';
+                        var navbarLinks = localizedContent.getNodeById($scope.contentInfo, 'navbar');
 
-						$http.get(contentInfo).then(function(success){
+                        if (!navbarLinks) {
+                            console.error('error: no navbar links found in file ' + $scope.contentInfo);
+                        } else {
+                            localizedContent.reduceTitles(navbarLinks);
+                            $scope.dynamicLinkList = navbarLinks.children;
+                        }
+                    };
 
-							var navbarLinks = localizedContent.getNodeById(success.data,'navbar');
+                    $scope.toggleNavbar = function() {
 
-							if (!navbarLinks) {
-								console.error('error: no navbar links found in file ' + contentInfo);
-							} else {
-                                localizedContent.reduceTitles(navbarLinks);
-                                $scope.dynamicLinkList = navbarLinks.children;
-							}
-						}, function(error) {
-							console.error(error.data)
-						});
-					};
+                            $scope.isCollapsed = true;
+                            $scope.$on('$routeChangeSuccess', function () {
+                                $scope.isCollapsed = true;
+                            });
+                    };
 
-					$scope.toggleNavbar = function() {
-
-							$scope.isCollapsed = true;
-							$scope.$on('$routeChangeSuccess', function () {
-								$scope.isCollapsed = true;
-							});
-					};
-
-					$scope.switchLanguage = function(lang) {
-						localStorage.setItem('lang', lang);
+                    $scope.switchLanguage = function(lang) {
+                        localStorage.setItem('lang', lang);
                         $window.location.reload();
-					};
+                    };
 
-				}],
-			link: function(scope,element,attrs){
-				scope.getNavbarLinks(attrs.contentDir);
-			}
-		}});
+                }],
+            link: function(scope){
+                scope.getNavbarLinks();
+            }
+        }});

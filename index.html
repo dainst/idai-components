@@ -13,12 +13,13 @@
 
 <body ng-controller="MainController">
 
-<idai-navbar
+<idai-navbar ng-if="contentInfo"
         project-id="components"
         login-function="openLoginModal()"
         logout-function="logout()"
         user-object=""
         get-search-path-fn="searchPathFunction"
+        content-info="contentInfo"
 ></idai-navbar>
 
 <div class="container-fluid">
@@ -26,7 +27,9 @@
     <div style="min-height:200px; margin-top: 50px; margin-bottom:100px;" ng-view></div>
 </div>
 
-<idai-footer institutions="{'dai': 'http://www.dainst.de/', 'unikoeln': 'http://archaeologie.uni-koeln.de', 'codarchlab': 'http://archaeologie.uni-koeln.de/node/23'}">
+<idai-footer ng-if="contentInfo"
+        institutions="{'dai': 'http://www.dainst.de/', 'unikoeln': 'http://archaeologie.uni-koeln.de', 'codarchlab': 'http://archaeologie.uni-koeln.de/node/23'}"
+        content-info="contentInfo">
     GitHub-Repository: <a href="https://github.com/dainst/idai-components">https://github.com/dainst/idai-components</a>
 </idai-footer>
 

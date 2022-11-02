@@ -13,12 +13,13 @@ angular.module('idai.components')
             restrict: 'E',
             scope: {
                 institutions: '=',
-                version: '@'
+                version: '@',
+                contentInfo: '=',
             },
             transclude: true,
             templateUrl: 'layout/idai-footer.html',
-            controller: ['$scope', '$http', '$sce', 'localizedContent', '$transclude', 'componentsSettings',
-                function ($scope, $http, $sce, localizedContent, $transclude, componentsSettings) {
+            controller: ['$scope', 'localizedContent', '$transclude', 'componentsSettings',
+                function ($scope, localizedContent, $transclude, componentsSettings) {
 
                     $scope.dataProtectionPolicyUri = componentsSettings.dataProtectionPolicyUri;
                     $scope.mailto = componentsSettings.mailTo;
@@ -28,28 +29,21 @@ angular.module('idai.components')
                     });
 
                     $scope.date = new Date();
-                    $scope.getFooterLinks = function (contentDir) {
+                    $scope.getFooterLinks = function () {
 
-                        var contentInfo = 'info/content.json';
+                        var footerLinks = localizedContent.getNodeById($scope.contentInfo, 'footer');
 
-                        $http.get(contentInfo).then(function (success) {
-
-                            var footerLinks = localizedContent.getNodeById(success.data, 'footer');
-
-                            if (!footerLinks) {
-                                console.error('error: no footer links found in file ' + contentInfo);
-                            } else {
-                                localizedContent.reduceTitles(footerLinks);
-                                $scope.dynamicLinkList = footerLinks.children;
-                            }
-                        }, function(error) {
-                            console.error(error.data);
-                        });
+                        if (!footerLinks) {
+                            console.error('error: no footer links found in file ' + $scope.contentInfo);
+                        } else {
+                            localizedContent.reduceTitles(footerLinks);
+                            $scope.dynamicLinkList = footerLinks.children;
+                        }
                     }
                 }],
-            link: function (scope, element, attrs) {
+            link: function (scope) {
 
-                scope.getFooterLinks(attrs.contentDir);
+                scope.getFooterLinks();
             }
         }
     });

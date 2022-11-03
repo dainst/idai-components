@@ -4,6 +4,8 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
+ @import "source-sans-pro.css";
+
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {
 
     border: none;

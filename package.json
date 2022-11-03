@@ -1,6 +1,6 @@
 {
   "name": "idai-components",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "reusable angular components for the applications of the iDAI.world",
   "browser": "dist/idai-components.js",
   "repository": {

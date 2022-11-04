@@ -33,14 +33,16 @@ angular.module('idai.components')
 
                     $scope.getNavbarLinks = function(){
 
-                        var navbarLinks = localizedContent.getNodeById($scope.contentInfo, 'navbar');
+						if ($scope.contentInfo) {
+							var navbarLinks = localizedContent.getNodeById($scope.contentInfo, 'navbar');
 
-                        if (!navbarLinks) {
-                            console.error('error: no navbar links found in file ' + $scope.contentInfo);
-                        } else {
-                            localizedContent.reduceTitles(navbarLinks);
-                            $scope.dynamicLinkList = navbarLinks.children;
-                        }
+							if (!navbarLinks) {
+								console.error('error: no navbar links found in file ' + $scope.contentInfo);
+							} else {
+								localizedContent.reduceTitles(navbarLinks);
+								$scope.dynamicLinkList = navbarLinks.children;
+							}
+						}
                     };
 
                     $scope.toggleNavbar = function() {

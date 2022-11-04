@@ -31,13 +31,15 @@ angular.module('idai.components')
                     $scope.date = new Date();
                     $scope.getFooterLinks = function () {
 
-                        var footerLinks = localizedContent.getNodeById($scope.contentInfo, 'footer');
+                        if ($scope.contentInfo) {
+                            var footerLinks = localizedContent.getNodeById($scope.contentInfo, 'footer');
 
-                        if (!footerLinks) {
-                            console.error('error: no footer links found in file ' + $scope.contentInfo);
-                        } else {
-                            localizedContent.reduceTitles(footerLinks);
-                            $scope.dynamicLinkList = footerLinks.children;
+                            if (!footerLinks) {
+                                console.error('error: no footer links found in file ' + $scope.contentInfo);
+                            } else {
+                                localizedContent.reduceTitles(footerLinks);
+                                $scope.dynamicLinkList = footerLinks.children;
+                            }
                         }
                     }
                 }],
